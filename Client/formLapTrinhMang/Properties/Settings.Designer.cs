@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace formLapTrinhMang.Properties
+namespace Client.Properties
 {
 
 

@@ -1,4 +1,4 @@
-﻿namespace formLapTrinhMang
+﻿namespace Client
 {
     partial class Form1
     {
@@ -28,91 +28,110 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbID = new System.Windows.Forms.Label();
-            this.lbPword = new System.Windows.Forms.Label();
-            this.tbID = new System.Windows.Forms.TextBox();
-            this.tbPassWord = new System.Windows.Forms.TextBox();
-            this.btLogin = new System.Windows.Forms.Button();
-            this.btCreatAccount = new System.Windows.Forms.Button();
-            this.btExit = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtServerIP = new System.Windows.Forms.TextBox();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.txtInput = new System.Windows.Forms.RichTextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // lbID
+            // label1
             // 
-            this.lbID.AutoSize = true;
-            this.lbID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbID.Location = new System.Drawing.Point(89, 73);
-            this.lbID.Name = "lbID";
-            this.lbID.Size = new System.Drawing.Size(120, 20);
-            this.lbID.TabIndex = 0;
-            this.lbID.Text = "Tên đăng nhập:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
             // 
-            // lbPword
+            // txtServerIP
             // 
-            this.lbPword.AutoSize = true;
-            this.lbPword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPword.Location = new System.Drawing.Point(89, 111);
-            this.lbPword.Name = "lbPword";
-            this.lbPword.Size = new System.Drawing.Size(79, 20);
-            this.lbPword.TabIndex = 1;
-            this.lbPword.Text = "Mật khẩu:";
+            this.txtServerIP.Location = new System.Drawing.Point(54, 9);
+            this.txtServerIP.Name = "txtServerIP";
+            this.txtServerIP.Size = new System.Drawing.Size(152, 20);
+            this.txtServerIP.TabIndex = 1;
+            this.txtServerIP.Text = "txtServerIP";
             // 
-            // tbID
+            // txtPort
             // 
-            this.tbID.Location = new System.Drawing.Point(216, 73);
-            this.tbID.Name = "tbID";
-            this.tbID.Size = new System.Drawing.Size(160, 20);
-            this.tbID.TabIndex = 1;
+            this.txtPort.Location = new System.Drawing.Point(279, 9);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(35, 20);
+            this.txtPort.TabIndex = 3;
             // 
-            // tbPassWord
+            // label2
             // 
-            this.tbPassWord.Location = new System.Drawing.Point(216, 113);
-            this.tbPassWord.Name = "tbPassWord";
-            this.tbPassWord.Size = new System.Drawing.Size(160, 20);
-            this.tbPassWord.TabIndex = 2;
-            this.tbPassWord.UseSystemPasswordChar = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(237, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "label2";
             // 
-            // btLogin
+            // button1
             // 
-            this.btLogin.Location = new System.Drawing.Point(216, 181);
-            this.btLogin.Name = "btLogin";
-            this.btLogin.Size = new System.Drawing.Size(87, 23);
-            this.btLogin.TabIndex = 3;
-            this.btLogin.Text = "Đăng nhập";
-            this.btLogin.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(361, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // btCreatAccount
+            // button2
             // 
-            this.btCreatAccount.Location = new System.Drawing.Point(309, 181);
-            this.btCreatAccount.Name = "btCreatAccount";
-            this.btCreatAccount.Size = new System.Drawing.Size(87, 23);
-            this.btCreatAccount.TabIndex = 4;
-            this.btCreatAccount.Text = "Đăng ký";
-            this.btCreatAccount.UseVisualStyleBackColor = true;
-            this.btCreatAccount.Click += new System.EventHandler(this.btCreatAccount_Click);
+            this.button2.Location = new System.Drawing.Point(474, 13);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
-            // btExit
+            // listBox1
             // 
-            this.btExit.Location = new System.Drawing.Point(440, 223);
-            this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(87, 23);
-            this.btExit.TabIndex = 5;
-            this.btExit.Text = "Thoát";
-            this.btExit.UseVisualStyleBackColor = true;
-            this.btExit.Click += new System.EventHandler(this.btExit_Click);
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(31, 60);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(543, 251);
+            this.listBox1.TabIndex = 6;
+            // 
+            // txtInput
+            // 
+            this.txtInput.Location = new System.Drawing.Point(31, 328);
+            this.txtInput.Name = "txtInput";
+            this.txtInput.Size = new System.Drawing.Size(446, 96);
+            this.txtInput.TabIndex = 7;
+            this.txtInput.Text = "";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(483, 328);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(91, 96);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 258);
-            this.Controls.Add(this.btExit);
-            this.Controls.Add(this.btCreatAccount);
-            this.Controls.Add(this.btLogin);
-            this.Controls.Add(this.tbPassWord);
-            this.Controls.Add(this.tbID);
-            this.Controls.Add(this.lbPword);
-            this.Controls.Add(this.lbID);
+            this.ClientSize = new System.Drawing.Size(627, 450);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.txtInput);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.txtPort);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtServerIP);
+            this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -122,13 +141,15 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lbID;
-        private System.Windows.Forms.Label lbPword;
-        private System.Windows.Forms.TextBox tbID;
-        private System.Windows.Forms.TextBox tbPassWord;
-        private System.Windows.Forms.Button btLogin;
-        private System.Windows.Forms.Button btCreatAccount;
-        private System.Windows.Forms.Button btExit;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtServerIP;
+        private System.Windows.Forms.TextBox txtPort;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.RichTextBox txtInput;
+        private System.Windows.Forms.Button button3;
     }
 }
 

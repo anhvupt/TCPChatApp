@@ -4,31 +4,44 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace formLapTrinhMang
+namespace Client
 {
     public partial class Form1 : Form
     {
+        ClientProgram client = new ClientProgram();
         public Form1()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
+            client.SetDataFunction = new ClientProgram.SetDataControl(SetData);
         }
-
-        private void btExit_Click(object sender, EventArgs e)
+        private void SetData(string Data)
         {
-            DialogResult h = MessageBox.Show("Bạn có chắc muốn thoát không?", "Error!", MessageBoxButtons.OKCancel);
-            if (h == DialogResult.OK)
-                Application.Exit(); 
+            this.listBox1.Items.Add(Data);
         }
 
-        private void btCreatAccount_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            FormCreateAccount FCA = new FormCreateAccount();
-            FCA.ShowDialog();
+            client.Connect(IPAddress.Parse(this.txtServerIP.Text),
+            int.Parse(this.txtPort.Text));
         }
 
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            client.Disconnect();
+
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            client.SendData(this.txtInput.Text);
+            this.txtInput.Text = "";
+        }
     }
+
 }
