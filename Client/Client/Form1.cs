@@ -13,32 +13,33 @@ namespace Client
 {
     public partial class Form1 : Form
     {
-        ClientProgram client = new ClientProgram();
+        ClientProgram client;
         public Form1()
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            client.SetDataFunction = new ClientProgram.SetDataControl(SetData);
         }
         private void SetData(string Data)
         {
-            this.listBox1.Items.Add(Data);
+            this.lbMessageBox.Items.Add(Data);
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void BtnConnect_Click(object sender, EventArgs e)
         {
-            client.Connect(IPAddress.Parse(this.textBox1.Text), int.Parse(this.textBox2.Text));
+            client = new ClientProgram(IPAddress.Parse(tbIpServer.Text), int.Parse(tbPort.Text));
+            client.SetDataFunction = new ClientProgram.SetDataControl(SetData);
+            client.CreateConnection();
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        private void BtnDisconnect_Click(object sender, EventArgs e)
         {
             client.Disconnect();
         }
 
-        private void Button3_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            client.SendData(this.richTextBox1.Text);
-            this.richTextBox1.Text = "";
+            client.Input(Encoding.ASCII.GetBytes(tbInput.Text));
+            this.tbInput.Text = "";
         }
     }
 }

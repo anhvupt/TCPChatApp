@@ -19,36 +19,36 @@ namespace server
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            server.SetDataFunction = new ServerProgram.SetDataControl(SetData);
-            server.SetClientsNumberFunction = new ServerProgram.SetClientsNumberControl(SetClientsNumber);
-            server.SetClientsFunction = new ServerProgram.SetClientsControl(SetClients);
+            ServerProgram.SetDataFunction = new ServerProgram.SetDataControl(SetData);
+            ServerProgram.SetClientsNumberFunction = new ServerProgram.SetClientsNumberControl(SetClientsNumber);
+            ServerProgram.SetClientsFunction = new ServerProgram.SetClientsControl(SetClients);
         }
         public void SetData(string data)
         {
-            listBox1.Items.Add(data);
+            lbServerConsole.Items.Add(data);
         }
         public void SetClientsNumber(int clientsNumber)
         {
-            textBox1.Text = clientsNumber.ToString();
+            tbClientsNumber.Text = clientsNumber.ToString();
         }
         public void SetClients(List<string> clients)
         {
-            listBox2.Items.Clear();
+            lbListUser.Items.Clear();
             foreach (string item in clients)
-                listBox2.Items.Add(item);
+                lbListUser.Items.Add(item);
         }
 
-        private void BtnStart_Click(object sender, EventArgs e)
+        private void StartServer_Click(object sender, EventArgs e)
         {
             if (state == false)
             {
                 server.Listen();
                 state = true;
             }
-            else { SetData("Dang cho client ket noi..."); }   
+            else { SetData("Dang cho client ket noi..."); }
         }
 
-        private void BtnStop_Click(object sender, EventArgs e)
+        private void StopServer_Click(object sender, EventArgs e)
         {
             if (state == true)
             {
@@ -57,6 +57,11 @@ namespace server
                 state = false;
             }
             else { SetData("Server da dong ket noi"); }
+        }
+
+        private void BtnSendAll_Click(object sender, EventArgs e)
+        {
+            server.SendAll(Encoding.ASCII.GetBytes(tbInput.Text));
         }
     }
         

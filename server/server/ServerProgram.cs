@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace server
@@ -11,8 +12,13 @@ namespace server
     public class ServerProgram
     {
 
-        private static int clientsNumber = 0;
-        private static List<string> clients = new List<string>();
+        public static int clientsNumber = 0;
+        public static List<string> clients = new List<string>();
+        private static List<ClientThread> clientThreads = new List<ClientThread>(); //conversation
+
+        public static Queue<byte[]> OutQ = new Queue<byte[]>();
+        public static Queue<byte[]> InQ = new Queue<byte[]>();
+        Thread tSend;
         private IPAddress serverIP;
         public IPAddress ServerIP
         {
@@ -29,19 +35,15 @@ namespace server
 
         #region delegates to set controls data
         public delegate void SetDataControl(string data);
-        public SetDataControl SetDataFunction = null;
+        public static SetDataControl SetDataFunction = null;
         public delegate void SetClientsNumberControl(int clientsNumber);
-        public SetClientsNumberControl SetClientsNumberFunction = null;
+        public static SetClientsNumberControl SetClientsNumberFunction = null;
         public delegate void SetClientsControl(List<string> clients);
-        public SetClientsControl SetClientsFunction = null;
+        public static SetClientsControl SetClientsFunction = null;
         #endregion
 
         Socket serverSocket = null;
         IPEndPoint serverEP = null;
-        Socket clientSocket = null;
-        byte[] buff = new byte[1024];
-        int byteReceive = 0;
-        string stringReceive = "";
 
         public ServerProgram(IPAddress serverIp, int port)
         {
@@ -54,97 +56,58 @@ namespace server
             serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             serverEP = new IPEndPoint(ServerIP, Port);
             serverSocket.Bind(serverEP);
-            //chap nhan nhieu client ket noi
-            serverSocket.Listen(-1);
-            serverSocket.BeginAccept(new AsyncCallback(AcceptSocket), serverSocket);
             SetDataFunction("Dang cho client ket noi..."); //in ra control bang mot cach nao do, tuy ham control
+            serverSocket.Listen(-1); //chap nhan nhieu client ket noi
+            serverSocket.BeginAccept(new AsyncCallback(AcceptSocket), serverSocket);
         }
         private void AcceptSocket(IAsyncResult ia) //ia: gia tri tra ve cua phuong thuc BeginAccept
         {
+            ClientThread clientThread = new ClientThread(serverSocket, ia);
+            clientThreads.Add(clientThread);
+            Thread thread = new Thread(new ThreadStart(clientThread.RunClientThread));
+            thread.Start();
+            tSend = new Thread(new ThreadStart(SendData));
+            tSend.Start();
             try
             {
-                //lay trang thai serverSocket
-                Socket e = (Socket)ia.AsyncState;
-                //chap nhan ket noi, tra ve 1 socket moi va su dung de ket noi voi client
-                clientSocket = serverSocket.EndAccept(ia);
-                string hello = "Hello Client";
-                buff = Encoding.ASCII.GetBytes(hello);
-                clientSocket.BeginSend(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(SendData), clientSocket);
-                //trong khi gui loi chao thi in thong tin client ra server form
-                SetDataFunction("Client: " + clientSocket.RemoteEndPoint.ToString() + " da ket noi");
-                //test xuat so client
-                AddClient();
-                UpdateClients();
+                serverSocket.BeginAccept(new AsyncCallback(AcceptSocket), serverSocket);
             }
-            catch
-            {
-                SetDataFunction("Dong ket noi");
-            }
+            catch(Exception e) { SetDataFunction(e.ToString()); }
         }
-        private void SendData(IAsyncResult ia)
+
+        void SendData()
         {
-            Socket s = (Socket)ia.AsyncState;
-            buff = new byte[1024];
-            s.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(ReceiveData), s);
+            while (true)
+            {
+                if (OutQ.Count > 0)
+                {
+                    byte[] buff = OutQ.Dequeue();
+                    SendAll(buff);
+                }
+            }
         }
+
         public void Close()
         {
             serverSocket.Close();
-            if (clientSocket != null)
-            {
-                clientSocket.Close();
-            }           
         }
-        private void ReceiveData(IAsyncResult ia)
+        public void SendAll(byte[] data)
         {
-            Socket s = (Socket)ia.AsyncState;
-            try
+            string strData = Encoding.ASCII.GetString(data);
+            foreach (ClientThread clientThread in clientThreads)
             {
-                byteReceive = s.EndReceive(ia);
+                clientThread.SendData(data);
             }
-            catch
-            {
-                //loi client ngat ket noi
-                RemoveClient();
-                UpdateClients();
-                //thong bao ngat ket noi va cap nhat list clients
-                SetDataFunction("Client: "+s.RemoteEndPoint.ToString()+" ngat ket noi");
-                Close();
-                Listen();
-                return;
-            }
-            if(byteReceive == 0)
-            {
-                //neu client shutdown
-                RemoveClient();
-                UpdateClients();
-                SetDataFunction("Client: " + s.RemoteEndPoint.ToString() + " dong ket noi");
-                Close();
-            }
-            else
-            {
-                string stringRecieve = Encoding.ASCII.GetString(buff);
-                s.BeginSend(buff,0, buff.Length, SocketFlags.None, new AsyncCallback(SendData), s);
-                SetDataFunction(s.RemoteEndPoint.ToString() + ": " + stringRecieve);
-            }
-        }
-        #region handle clients number and list clients
-        private void RemoveClient()
-        {
-            clientsNumber--;
-            clients.Remove(clientSocket.RemoteEndPoint.ToString());
-        }
-        private void AddClient()
-        {
-            clientsNumber++;
-            clients.Add(clientSocket.RemoteEndPoint.ToString());
-        }
-        private void UpdateClients()
-        {
-            SetClientsNumberFunction(clientsNumber);
-            SetClientsFunction(clients);
-        }
-        #endregion
 
+        }
+        /// <summary>
+        /// Ham nhan tin nhan dau vao tu form, dua vao hang doi de gui di
+        /// </summary>
+        /// <param name="data">noi dung tin nhan</param>
+        public static void Input(byte[] data)
+        {
+            ServerProgram.OutQ.Enqueue(data);
+            ServerProgram.InQ.Enqueue(data);
+        }
     }
 }

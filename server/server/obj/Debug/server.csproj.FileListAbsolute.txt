@@ -8,3 +8,13 @@ E:\Study\LapTrinhMang\server\server\obj\Debug\server.csproj.CoreCompileInputs.ca
 E:\Study\LapTrinhMang\server\server\obj\Debug\server.exe
 E:\Study\LapTrinhMang\server\server\obj\Debug\server.pdb
 E:\Study\LapTrinhMang\server\server\obj\Debug\server.ServerForm.resources
+E:\Study\LapTrinhMang\TCPChatApp\server\server\bin\Debug\server.exe.config
+E:\Study\LapTrinhMang\TCPChatApp\server\server\bin\Debug\server.exe
+E:\Study\LapTrinhMang\TCPChatApp\server\server\bin\Debug\server.pdb
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.csprojAssemblyReference.cache
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.ServerForm.resources
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.Properties.Resources.resources
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.csproj.GenerateResource.cache
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.csproj.CoreCompileInputs.cache
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.exe
+E:\Study\LapTrinhMang\TCPChatApp\server\server\obj\Debug\server.pdb
